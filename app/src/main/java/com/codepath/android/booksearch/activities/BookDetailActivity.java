@@ -1,7 +1,6 @@
 package com.codepath.android.booksearch.activities;
 
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,7 +52,7 @@ public class BookDetailActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_book_detail, menu);
         MenuItem menuItem = menu.findItem(R.id.menu_item_share);
-        mShareAction = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        //mShareAction = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         return true;
     }
 
