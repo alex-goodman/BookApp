@@ -5,13 +5,17 @@ import android.text.TextUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
+@Parcel
 public class Book {
     private String openLibraryId;
     private String author;
     private String title;
+    private String publisher;
+    private String publishYear;
 
     public String getOpenLibraryId() {
         return openLibraryId;
@@ -30,6 +34,9 @@ public class Book {
         return "http://covers.openlibrary.org/b/olid/" + openLibraryId + "-L.jpg?default=false";
     }
 
+    // no arguments constructor for Parceler
+    public Book() { }
+
     // Returns a Book given the expected JSON
     public static Book fromJson(JSONObject jsonObject) {
         Book book = new Book();
@@ -44,6 +51,8 @@ public class Book {
             }
             book.title = jsonObject.has("title_suggest") ? jsonObject.getString("title_suggest") : "";
             book.author = getAuthor(jsonObject);
+            book.publisher = findPublisher(jsonObject);
+            book.publishYear = jsonObject.getString("publish_year");
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
@@ -65,6 +74,25 @@ public class Book {
         } catch (JSONException e) {
             return "";
         }
+    }
+
+    public String getPublishYear() {
+        return publishYear;
+    }
+
+    private static String findPublisher(final JSONObject object) {
+        try {
+            final JSONArray publishers = object.getJSONArray("publisher");
+            if (publishers.length() > 0) return publishers.getString(0);
+            else return "";
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public String getPublisher() {
+        return publisher;
     }
 
     // Decodes array of book json results into business model objects
